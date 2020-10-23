@@ -111,7 +111,8 @@ public class LoginController extends HttpServlet {
 			 */
 			
 			// 2. redirect 방식(url을 재요청 방식)
-			response.sendRedirect("/jsp");
+			// request.getContextPath() == "/jsp"
+			response.sendRedirect(request.getContextPath());
 			
 			
 			

@@ -35,8 +35,8 @@
         <br>
 
         <h2 align="center">회원가입 페이지</h2>
-
-        <form action="/jsp/insert.me" method="POST" id="enrollForm">
+		<!-- menubar 정의해놨기 때문에 여기서도 contextPath변수 사용가능! -->
+        <form action="<%=contextPath %>/insert.me" method="POST" id="enrollForm">
             
             <table id="enrollForm">
                 <tr>

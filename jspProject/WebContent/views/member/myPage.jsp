@@ -45,7 +45,7 @@
 
         <h2 align="center">마이페이지</h2>
 
-        <form action="" method="POST" id="myPageForm">
+        <form action="<%=contextPath %>/update.me" method="POST" id="myPageForm">
             
             <table id="myPageForm">
                 <tr>
@@ -150,8 +150,8 @@
         <!-- Modal body -->
         <div class="modal-body" align="center">
          
-            <form action="" method="POST">
-            
+            <form action="<%= contextPath %>/updatePwd.me" method="POST">
+            <input type="hidden" name="userId" value="<%= userId %>">
             <table>
                 <tr>
                     <th>현재 비밀번호</th>
@@ -207,9 +207,9 @@
 
         <br><br>
 
-       <form action="" method="POST">
+       <form action="<%=contextPath %>/delete.me" method="POST">
        
-
+		<input type="hidden" name="userId" value = "<%=userId %>" />
 
                 비밀번호 : <input type="password" name="userPwd" required>
 

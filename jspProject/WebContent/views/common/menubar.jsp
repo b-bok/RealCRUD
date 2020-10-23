@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.kh.member.model.vo.Member" %>
+    pageEncoding="UTF-8" import="com.kh.member.model.vo.Member, java.util.Date" %>
     
 <%
 
@@ -10,6 +10,12 @@
 	String alertMsg = (String)session.getAttribute("alertMsg");
 	// >> 회원가입 서비스 요청전 : null
 	// >> 회원가입 성공후 	  : alert로 띄워줄 메세지 담김 
+	
+	String contextPath = request.getContextPath(); // "/jsp"
+	
+	
+	
+	
 %>
     
 <!DOCTYPE html>
@@ -72,9 +78,6 @@
 	<% } %>
 
 
-
-
-
 	<%if(loginUser == null) { %>
 			
 			<h1 align="center">Welcome JSP World!</h1>
@@ -82,7 +85,7 @@
 			<div class="loginArea">
 		        <!-- 1. 로그인 전에 보여지는 로그인form -->
 		        
-		        <form id="loginForm" action="/jsp/login.me" method="POST">
+		        <form id="loginForm" action="<%=contextPath %>/login.me" method="POST">
 		        
 		         <table >
 		
@@ -113,7 +116,7 @@
 						
 						//단순한 정적인 페이지 요청에 있어도 반드시 Servlet으로 요청한후 forwarding방식으로 응답할것!
 						// => url에 서블릿 매핑값만 보일꺼임
-						location.href = "/jsp/enrollForm.me";
+						location.href = "<%=contextPath %>/enrollForm.me";
 					}
 				
 				</script>
@@ -129,8 +132,8 @@
 
             <b><%=loginUser.getUserName() %>님</b>의 방문을 환영합니다! <br><br>
             <div>
-                <a href="/jsp/myPage.me">마이페이지</a>
-                <a href="/jsp/logout.me">로그아웃</a>
+                <a href="<%=contextPath %>/myPage.me">마이페이지</a>
+                <a href="<%=contextPath %>/logout.me">로그아웃</a>
 
             </div>
 
@@ -145,9 +148,9 @@
 
 
     <div class="navWrap" align="center">
-        <div class="menu"><a href="">HOME</a></div>
-        <div class="menu"><a href="">공지사항</a></div>
-        <div class="menu"><a href="">일반게시판</a></div>
+        <div class="menu"><a href="<%=contextPath %>">HOME</a></div>
+        <div class="menu"><a href="<%=contextPath %>/list.no">공지사항</a></div>
+        <div class="menu"><a href="<%=contextPath %>/list.bo?currentPage=1">일반게시판</a></div>
         <div class="menu"><a href="">사진게시판</a></div>
     </div>
 </body>

@@ -36,7 +36,8 @@ public class LogoutController extends HttpServlet {
 		
 		// 응답페이지 => index
 		// redirect방식 (url 재요청)
-		response.sendRedirect("/jsp");
+		// requset.getContextPath() == /jsp
+		response.sendRedirect(request.getContextPath());
 		
 		
 	}
