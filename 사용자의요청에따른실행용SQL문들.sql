@@ -227,9 +227,87 @@ INSERT
   (
       SEQ_FNO.NEXTVAL
     , SEQ_BNO.CURRVAL
-    ,
+    , ?
+    , ?
+    , ?
   )
 
+
+--  3. 상세조회 요청시 실행할 sql문
+-- 3_1. 해당 게시글 조회수 증가
+UPDATE 
+       BOARD
+   SET COUNT = COUNT+1
+ WHERE BOARD_NO = 110
+   AND STATUS = 'Y'
+   ;
+
+-- 3_2. 해당 게시글 정보 조회용 SQL문
+SELECT
+       BOARD_NO
+     , CATEGORY_NAME
+     , BOARD_TITLE
+     , BOARD_CONTENT
+     , USER_ID
+     , CREATE_DATE
+  FROM BOARD B
+  JOIN CATEGORY USING(CATEGORY_NO)
+  JOIN MEMBER ON(BOARD_WRITER = USER_NO)
+ WHERE B.STATUS = 'Y'
+   AND BOARD_NO = ?
+    ;
+
+-- 3_3.해당 게시글 첨부파일 조회SQL
+SELECT
+       FILE_NO
+     , ORIGIN_NAME
+     , CHANGE_NAME
+     , FILE_PATH
+
+FROM ATTACHMENT
+WHERE STATUS = 'Y'
+  AND REF_BNO = ?
+  ;
+      
+
+-- 4. 일반게시판 수정하기 요청시 실행할 sql문
+-- BOARD 테이블 내용 수정 
+UPDATE
+       BOARD
+   SET CATEGORY_NO = ?
+     , BOARD_TITLE = ?
+     , BOARD_CONTENT = ? 
+ WHERE BOARD_NO = ?
+   AND STATUS = 'Y'
+     
+-- 새로 넘어온 첨부파일 있을 경우
+--> 기존에 첨부파일 있었을 경우(ATTACHMENT에 기록 있음 => UPDATE)
+UPDATE
+       ATTACHMENT
+   SET ORIGIN_NAME = ?
+     , CHANGE_NAME = ?
+     , FILE_PATH = ?
+ WHERE FILE_NO = ?
+ 
+
+--> 기존에 첨부파일 없었을 경우(ATTACHMENT에 기록 있음 => INSERT)
+INSERT 
+       INTO ATTACHMENT
+       (
+         FILE_NO
+        ,REF_BNO
+        ,ORIGIN_NAME
+        ,CHANGE_NAME
+        ,FILE_PATH
+        )
+        VALUES
+        (
+          SEQ_FNO.NEXTVAL
+         ,?
+         ,?
+         ,?
+         ,?
+        )
 
 
 

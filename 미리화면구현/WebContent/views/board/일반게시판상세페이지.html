@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+    .outer {
+        background: black;
+        color : white;
+        width: 1000px;
+        height: 550px;
+        margin: auto;
+        margin-top: 50px;
+        border: 1px solid white;
+    }
+    </style>
+</head>
+<body>
+    
+    <!-- 메뉴바 포함 -->
+
+    <div class="outer" >
+        <br>
+        <h2 align="center">일반게시글 상세보기</h2>
+        <br>
+
+        <table id="detail-area" align="center" border="1px">
+            <tr>
+                <th width="70">분야</th>
+                <td width="70">운동</td>
+                <th width="70">제목</th>
+                <td width="350">해당게시글 제목자리 입니다.</td>
+            </tr>
+
+            <tr>
+                <th>작성자</th>
+                <td>admin</td>
+                <th>작성일</th>
+                <td>2020-10-26</td>
+            </tr>
+
+            <tr>
+                <th>내용</th>
+                <td colspan="3">
+
+                    <p style="height: 200px; margin: 0; margin-top: 5px;" >
+                        해당 조회된 게시글의 내용 자리 입니다. 
+                    </p>
+
+                </td>
+            </tr>
+
+            <tr>
+                <th>첨부파일</th>
+                <td colspan="3">
+                    <!--첨부파일이 없을 경우  -->
+                    <!-- 첨부파일이 없습니다. -->
+
+                    <!-- 첨부파일이 있을 경우 -->
+                    <a href="/jsp/resources/board_upfiles/2020102616003977796.PNG">파일원본명</a>
+                
+                </td>
+            </tr>
+
+
+        </table>
+
+
+        <br>
+
+        <!-- 로그인한 사용자가 작성자와 일치할경우 -->
+        <div align="center">
+            <a href="">수정하기페이지</a>
+            <a href="">삭제하기</a>
+        </div>
+        <!-- ---------------------------------- -->
+
+    </div>
+
+</body>
+</html>

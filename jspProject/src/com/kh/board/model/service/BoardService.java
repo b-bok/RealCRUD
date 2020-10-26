@@ -1,7 +1,9 @@
 package com.kh.board.model.service;
 
-import static com.kh.common.JDBCTemplate.*;
-
+import static com.kh.common.JDBCTemplate.close;
+import static com.kh.common.JDBCTemplate.commit;
+import static com.kh.common.JDBCTemplate.getConnection;
+import static com.kh.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -69,6 +71,46 @@ public class BoardService {
 		
 		
 		return result1*result2; 
+	}
+	
+	public int increaseCount(int bno) {
+		
+		Connection conn = getConnection();
+		
+		int result = new BoardDao().increaseCount(conn, bno);
+		
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return result;
+		
+	}
+	
+	public Board selectBoard(int bno) {
+		
+		Connection conn = getConnection();
+		
+		Board b = new BoardDao().selectBoard(conn, bno);
+		
+		close(conn);
+		
+		return b;
+	}
+	
+	
+	public Attachment selectAttachment(int bno) {
+		Connection conn = getConnection();
+		
+		Attachment at = new BoardDao().selectAttachment(conn, bno);
+		
+		close(conn);
+		
+		return at;
 	}
 	
 }

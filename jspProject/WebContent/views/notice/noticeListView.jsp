@@ -62,7 +62,7 @@
 		
         <div align="right" style="width: 700px;">
             <!--<button onclick="location.href='writeNotice.no';">글 작성</button>-->
-             <a href="<%=contextPath %>/enrollForm.no" class="btn btn-secondary bvtn-sm">글작성</a> 
+             <a href="<%=contextPath %>/enrollForm.no" class="btn btn-secondary btn-sm">글작성</a> 
             <br><br>
         </div>
         
