@@ -15,6 +15,7 @@ public class Board {
 	private Date createDate;	// 게시글 작성일
 	private String status;		// 게시글 상태값 ('Y':유효한/'N':무효한)
 	
+	private String titleImg; 	// 사진 게시글일 경우 대표이미지 경로가 담긴 필드
 	
 	public Board() {}
 
@@ -58,6 +59,28 @@ public class Board {
 		this.boardContent = boardContent;
 		this.boardWriter = boardWriter;
 		this.createDate = createDate;
+	}
+
+	
+	
+	
+	
+	public Board(int boardNo, String boardTitle, int count, String titleImg) {
+		super();
+		this.boardNo = boardNo;
+		this.boardTitle = boardTitle;
+		this.count = count;
+		this.titleImg = titleImg;
+	}
+
+
+	public String getTitleImg() {
+		return titleImg;
+	}
+
+
+	public void setTitleImg(String titleImg) {
+		this.titleImg = titleImg;
 	}
 
 

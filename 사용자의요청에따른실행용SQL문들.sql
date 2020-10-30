@@ -64,7 +64,17 @@ UPDATE
  WHERE USER_ID = ?
    AND USER_PWD = ?; 
    
-   
+
+-- ajax. 아이디 중복체크 요청시 실행할 sql문
+
+SELECT
+       COUNT(*)
+  FROM MEMBER
+ WHERE USER_ID = ?;
+
+
+
+
 -- * 공지사항 서비스
 
 
@@ -251,7 +261,7 @@ SELECT
      , USER_ID
      , CREATE_DATE
   FROM BOARD B
-  JOIN CATEGORY USING(CATEGORY_NO)
+  LEFT JOIN CATEGORY USING(CATEGORY_NO)
   JOIN MEMBER ON(BOARD_WRITER = USER_NO)
  WHERE B.STATUS = 'Y'
    AND BOARD_NO = ?
@@ -267,6 +277,8 @@ SELECT
 FROM ATTACHMENT
 WHERE STATUS = 'Y'
   AND REF_BNO = ?
+ORDER
+   BY FILE_LEVEL ASC
   ;
       
 
@@ -287,7 +299,7 @@ UPDATE
    SET ORIGIN_NAME = ?
      , CHANGE_NAME = ?
      , FILE_PATH = ?
- WHERE FILE_NO = ?
+ WHERE FILE_NO = ?;
  
 
 --> 기존에 첨부파일 없었을 경우(ATTACHMENT에 기록 있음 => INSERT)
@@ -307,7 +319,70 @@ INSERT
          ,?
          ,?
          ,?
-        )
+        );
+
+-- * 사진게시판 서비스
+-- 1. 사진게시판 작성하기 요청시 실행할 sql문
+-- 1_1. Board테이블에 insert
+
+INSERT 
+  INTO BOARD
+  (
+     BOARD_NO
+   , BOARD_TYPE
+   , BOARD_TITLE
+   , BOARD_CONTENT
+   , BOARD_WRITER
+   , CREATE_DATE 
+  )
+  VALUES
+  (
+    SEQ_BNO.NEXTVAL
+   , 2
+   , ?
+   , ?
+   , ?
+   , SYSDATE
+  );
+
+
+-- 1_2. ATTACHMENT 테이블에 INSERT
+INSERT
+  INTO ATTACHMENT
+  (
+     FILE_NO
+   , REF_BNO
+   , ORIGIN_NAME
+   , CHANGE_NAME
+   , FILE_PATH
+   , FILE_LEVEL
+  )
+  VALUES
+  (
+     SEQ_FNO.NEXTVAL 
+   , SEQ_BNO.CURRVAL
+   , ?
+   , ?
+   , ?
+   , ?
+  );
+
+-- 2. 사진게시판 썸네일 조회시 사용할 sql문
+
+SELECT
+       BOARD_NO
+     , BOARD_TITLE
+     , COUNT
+     , FILE_PATH || CHANGE_NAME "TITLEiMG"
+ FROM BOARD B
+ JOIN ATTACHMENT ON(BOARD_NO = REF_BNO)
+WHERE BOARD_TYPE = 2
+  AND FILE_LEVEL = 1
+  AND B.STATUS = 'Y'
+ORDER BY BOARD_NO DESC;
+
+-- 2_1. 사진게시판 상세조회시 사용할 sql문
+
 
 
 

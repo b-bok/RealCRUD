@@ -36,8 +36,8 @@ public class BoardDetailController extends HttpServlet {
 		
 		// 조회수 증가
 		int result = new BoardService().increaseCount(bno);
-
 		
+	
 		if(result>0) {
 			// 게시글 정보 조회 (Board)
 			Board b = new BoardService().selectBoard(bno);
@@ -45,7 +45,12 @@ public class BoardDetailController extends HttpServlet {
 			Attachment at = new BoardService().selectAttachment(bno);
 			
 			request.setAttribute("b", b);
+			
 			request.setAttribute("at", at);
+		
+			System.out.println(b);
+			System.out.println(at);
+			
 			
 			request.getRequestDispatcher("views/board/boardDetailView.jsp").forward(request, response);
 			

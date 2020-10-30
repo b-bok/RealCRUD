@@ -42,7 +42,7 @@
                 <tr>
                     <td>* 아이디</td>
                     <td><input type="text" name="userId" maxlength="12" required></td>
-                    <td><button type="button">중복확인</button></td>
+                    <td><button type="button" onclick="idCheck();">중복확인</button></td>
                 </tr>
                 <tr>
                     <td>* 비밀번호</td>
@@ -103,7 +103,7 @@
             <br><br>
 
             <div align="center">
-                <button type="submit">회원가입</button>
+                <button type="submit" disabled>회원가입</button>
                 <button type="reset">초기화</button>
             </div>
 
@@ -114,6 +114,58 @@
 
 
     </div>
+    
+    <script>
+    	function idCheck(){
+    		//아이디를 입력하는 input요소 객체
+    		
+    		var $userId = $("#enrollForm input[name=userId]");
+    		var $submit = $("#enrollForm button[type=submit]");
+    		
+    		$.ajax({
+    			
+    			url:"idCheck.me",
+    			type:"get",
+    			data:{checkId:$userId.val()},
+    			success:function(result){
+    				
+    				if(result == "fail"){// 중복있음 => 사용불가
+    					
+    					
+    					// 이미 존재하거나 탈퇴한 회원의 아이디 입니다. 알람창 출력
+    					alert("이미 존재하거나 탈퇴한 회원 아이디 입니다.");
+    					// 해당 input요소에 포커스 맞추기
+    					$userId.focus();
+    					
+    				}else {// 중복 없음 => 사용가능
+    					
+    					// 사용가능한 아이디 입니까? 사용하시겠습니까? confirm 창출력
+    				
+    					if(confirm("사용가능한 아이디 입니까? 사용하시겠습니까?")) {
+ 							// true일 경우
+							//	아이디 입력 수정불가하게 readonly 속성추가
+							//  회원가입 버튼 disabled 속성 없애기
+    						$userId.attr("readonly", true);
+    						$submit.removeAttr("disabled");
+    					}else{
+							// false일 경우
+							//  해당 input 요소에 포커스 맞추기
+    						$userId.focus();
+    					}
+   
+
+    				}
+    				
+    			},error:function(){
+    				console.log("아이디 중복체크 ajax 통신 실패");
+    			}
+    			
+    		});
+    	}
+    
+    
+    </script>
+    
 
 
 </body>
