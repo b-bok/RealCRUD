@@ -381,11 +381,38 @@ WHERE BOARD_TYPE = 2
   AND B.STATUS = 'Y'
 ORDER BY BOARD_NO DESC;
 
--- 2_1. 사진게시판 상세조회시 사용할 sql문
+-- [AJAX] 댓글 작성 요청시 실행할 SQL문
 
+INSERT
+  INTO REPLY
+  (
+     REPLY_NO
+   , REPLY_CONTENT
+   , REF_BNO
+   , REPLY_WRITER
+   , CREATE_DATE
+   )
+   VALUES
+   (
+      SEQ_RNO.NEXTVAL
+    , 'ㅋㅋㅋㅋ 추천쓰'
+    , 115
+    , 1
+    , SYSDATE
+   );
 
+commit;
 
+-- [ALAX] 해당 게시글에 딸려있는 댓글 조회 sql문
 
+SELECT
+        REPLY_NO
+      , REPLY_CONTENT
+      , USER_ID
+      , CREATE_DATE
+ FROM   REPLY
+ JOIN MEMBER ON(REPLY_WRITER = USER_NO)
+      
 
 
 

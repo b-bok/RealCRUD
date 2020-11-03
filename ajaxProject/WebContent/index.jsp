@@ -157,5 +157,166 @@
 	</script>
 	
 	
+	<h3>3. 서버로 데이터 전송 후, 그에 해당하는 응답데이터(조회된 vo객제 1개)를 받기</h3>
+	<h4>조회하고자하는 회원번호 입력후 전달하고, 그에 해당하는 조회된 데이터(조회된 회원 객체) 받기</h4>
+	
+	
+	조회할 회원번호 : <input type="number" id="input3" />
+	<button id="btn3">조회</button>
+	
+	<div id="output3">
+	
+	
+	</div>
+	
+	<script>
+		
+		$(function(){
+			
+			$("#btn3").click(function(){
+				
+				$.ajax({
+					url:"jqAjax3.do",
+					data : {num : $("#input3").val()},
+					success: function(result){
+						
+						//console.log(result.name);
+						
+						var str = "<ul>" + 
+						
+								  	"<li>" + result.no + "</li>" +
+									"<li>" + result.name + "</li>" +
+									"<li>" + result.age + "</li>" +
+									"<li>" + result.gender + "</li>" +
+								   "</ul>";	
+									
+									
+						$("#output3").html(str);		  	
+						
+						
+						
+					},
+					error: function(){
+						console.log("ajax 통신 실패");
+					}
+					
+				});
+			})
+		})
+	
+	
+	</script>
+	
+	
+	<h3>4. Gson 라이브러리를 이용해서 vo객체 받아보기</h3>
+	조회활 회원번호 : <input type="number" id="input4" />
+	<button id="btn4">조회</button>
+	
+	<div id="output4"></div>
+	
+	<script>
+		$(function(){
+			
+			$("#btn4").click(function(){
+				
+				$.ajax({
+					url : "jqAjax4.do",
+					data : {num : $("#input4").val()},
+					success : function(result){
+						
+						console.log(result);
+						
+						var str = "<ol>" + 
+						
+					  	"<li>" + result.no + "</li>" +
+						"<li>" + result.name + "</li>" +
+						"<li>" + result.age + "</li>" +
+						"<li>" + result.gender + "</li>" +
+					   "</ol>";	
+					   
+					   
+						 $("#output4").html(str);       
+						        
+						
+					},
+					error :  function(){
+						console.log("ajax 통신 실패");
+					}
+					
+					
+				})
+			})
+			
+			
+			
+		})
+	</script>
+	
+	
+	<h3>5. 응답 데이터로 여러개의 객체들이 담겨있는 List 받기</h3>
+		<button id="btn5">회원 전체 조회</button>
+	<br /><br />
+	
+	<table id="userTable" border="1" style="text-align:center">
+		<thead>
+			<tr>
+				<th>번호</th>
+				<th>이름</th>
+				<th>나이</th>
+				<th>성별</th>
+			</tr>
+		</thead>
+		<tbody>
+
+		</tbody>
+	
+	
+	</table>
+	
+	
+	<script>
+		$(function(){
+			
+			$("#btn5").click(function(){
+				$.ajax({
+					
+					url:"jqAjax5.do",
+					success : function(list){
+					/* 	console.log(list);	// 배열
+						console.log(list[0].name);
+						console.log(list[1].name);
+						console.log(list[2].name); */
+						
+						
+						var str = "";
+					
+						
+						for(var i=0; i<list.length;i++) {
+							
+							str +=  "<tr>" +
+										"<td>" + list[i].no + "</td>" +
+										"<td>" + list[i].name + "</td>" +
+										"<td>" + list[i].age + "</td>" +
+										"<td>" + list[i].gender + "</td>" +
+									"</tr>"
+	
+						}
+						
+						$("#userTable>tbody").html(str);
+						
+					},
+					error : function(){
+						console.log("ajax통신 실패");
+					}
+
+				})
+			})
+			
+		})
+	
+	
+	</script>
+	
+	
 </body>
 </html>

@@ -14,7 +14,7 @@
         background:black;
         color:white;
         width:1000px;
-        height:550px;
+        /* height:800px; */
         margin:auto;
         margin-top:50px;
     }
@@ -73,9 +73,76 @@
                <a href="" class="btn btn-danger btn-sm">삭제하기</a>
            </div>
         <% } %>
+        
+        
+        <br />
+        
+        <div id="replyArea">
+        	<table border="1" align="center">
+        		<thead>
+        			<tr>
+        				<th>댓글작성</th>
+        			 <%if(loginUser == null) {// 로그인 전  %>
+        				<td>
+        				<textarea cols="50" rows="2" style="resize:none" readonly>로그인 후 이용가능한 서비스입니다.</textarea>
+        				</td>
+        				<td><button disabled>댓글등록</button></td>
+        			<%}else { // 로그인 후 %>
+        				<td>
+        				<textarea cols="50" rows="2" style="resize:none" id="replyContent"></textarea>
+        				</td>
+        				<td><button>댓글등록</button></td>
+					<%} %>
+        				
+        			</tr>
+        		</thead>
+        		
+        		<tbody>
+
+        		</tbody>
+        	</table>
+        </div>
+        <br /><br />
 
     </div>
-   
+   	
+   		<script>
+   			$(function(){
+   				selectReplyList();
+   			})
+   		
+   		
+   			function selectReplyList(){//해당 게시글 딸려있는 댓글 리스트 
+   				$.ajax({
+   					url:"rlist.bo",
+   					data:{bno: <%=b.getBoardNo()%>},
+   					success:function(list){
+   						
+   						console.log(list);
+   						
+   						var str = "";
+   						
+   						for(var i in list) {
+   							
+   							str +=   "<tr>" +
+			   	        				"<td>" + list[i].replyWriter + "</td>" +
+			   	        				"<td>" + list[i].replyContent + "</td>" +
+			   	        				"<td>" + list[i].createDate + "</td>" +
+			   	    
+   	        						 "</tr>";
+   							
+   						}
+   						
+   						$("#replyArea tbody").html(str);
+   						
+   					},
+   					error: function(){
+   						console.log("댓글 리스트 조회용 ajax 통신 실패");	
+   					}
+   				})
+
+   			}
+   		</script>
    
    
    

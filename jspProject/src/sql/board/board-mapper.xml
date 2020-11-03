@@ -267,5 +267,22 @@
 					
 		
 		</entry>
+		
+		
+		<entry key="selectReplyList">
+			
+			SELECT
+			        REPLY_NO
+			      , REPLY_CONTENT
+			      , USER_ID
+			      , CREATE_DATE
+			 FROM   REPLY R
+			 JOIN  MEMBER ON(REPLY_WRITER = USER_NO)
+			WHERE  REF_BNO = ?
+			  AND  R.STATUS = 'Y'
+			ORDER
+			   BY REPLY_NO DESC
+						
+		</entry>
 
 </properties>

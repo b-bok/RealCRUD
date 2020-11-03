@@ -15,6 +15,7 @@ import java.util.Properties;
 import com.kh.board.model.vo.Attachment;
 import com.kh.board.model.vo.Board;
 import com.kh.board.model.vo.PageInfo;
+import com.kh.board.model.vo.Reply;
 
 public class BoardDao {
 	
@@ -554,6 +555,48 @@ public class BoardDao {
 		return list;
 		
 	}
+	
+	
+	
+	public ArrayList<Reply> selectReplyList(Connection conn, int bno) {
+		
+		ArrayList<Reply> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectReplyList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, bno);
+			
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				
+				list.add(new Reply(
+									rset.getInt("reply_no")
+								  , rset.getString("reply_content")
+								  , rset.getString("user_id")
+								  , rset.getDate("create_date")
+									)
+
+						);
+			}
+
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return list;
+	}
+	
 	
 	
 }

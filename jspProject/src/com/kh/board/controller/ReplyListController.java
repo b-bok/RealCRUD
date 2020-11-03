@@ -1,6 +1,7 @@
 package com.kh.board.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,21 +9,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import com.kh.board.model.service.BoardService;
-import com.kh.board.model.vo.Attachment;
-import com.kh.board.model.vo.Board;
+import com.kh.board.model.vo.Reply;
 
 /**
- * Servlet implementation class BoardDetailController
+ * Servlet implementation class ReplyListController
  */
-@WebServlet("/detail.bo")
-public class BoardDetailController extends HttpServlet {
+@WebServlet("/rlist.bo")
+public class ReplyListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BoardDetailController() {
+    public ReplyListController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,35 +32,18 @@ public class BoardDetailController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+		// ajax 요청 처리용 controller	
 		int bno = Integer.parseInt(request.getParameter("bno"));
 		
-		// 조회수 증가
-		int result = new BoardService().increaseCount(bno);
+		ArrayList<Reply> list = new BoardService().selectReplyList(bno);
 		
-	
-		if(result>0) {
-			// 게시글 정보 조회 (Board)
-			Board b = new BoardService().selectBoard(bno);
-			// 첨부파일 정보 조회 (Attachment)
-			Attachment at = new BoardService().selectAttachment(bno);
-			
-			request.setAttribute("b", b);
-			
-			request.setAttribute("at", at);
-			
-			
-			request.getRequestDispatcher("views/board/boardDetailView.jsp").forward(request, response);
-			
-		}else {
-			
-			request.setAttribute("errorMsg", "유효한 게시글이 아니거나, 삭제된 게시글입니다.");
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
-			
-		}
+		response.setContentType("application/json; charset=utf-8"); 
 		
+		Gson gson = new Gson();
 		
+		gson.toJson(list, response.getWriter());
 		
+
 	}
 
 	/**
