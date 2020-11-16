@@ -395,9 +395,9 @@ INSERT
    VALUES
    (
       SEQ_RNO.NEXTVAL
-    , '六六六六 蹺繭噙'
-    , 115
-    , 1
+    , ?
+    , ?
+    , ?
     , SYSDATE
    );
 
@@ -410,9 +410,12 @@ SELECT
       , REPLY_CONTENT
       , USER_ID
       , CREATE_DATE
- FROM   REPLY
- JOIN MEMBER ON(REPLY_WRITER = USER_NO)
-      
+ FROM   REPLY R
+ JOIN  MEMBER ON(REPLY_WRITER = USER_NO)
+WHERE  REF_BNO = ?
+  AND  R.STATUS = 'Y'
+ORDER
+   BY REPLY_NO DESC;
 
 
 

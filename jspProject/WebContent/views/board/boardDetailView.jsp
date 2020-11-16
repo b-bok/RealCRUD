@@ -89,9 +89,10 @@
         				<td><button disabled>댓글등록</button></td>
         			<%}else { // 로그인 후 %>
         				<td>
+        				<input type="hidden" value="<%=loginUser.getUserNo() %>" id="userNo" />			
         				<textarea cols="50" rows="2" style="resize:none" id="replyContent"></textarea>
         				</td>
-        				<td><button>댓글등록</button></td>
+        				<td><button onclick="addReply();">댓글등록</button></td>
 					<%} %>
         				
         			</tr>
@@ -109,8 +110,39 @@
    		<script>
    			$(function(){
    				selectReplyList();
+   				
+   				setInterval(selectReplyList,1000);
+   				
    			})
-   		
+   			
+   			function addReply(){	// 댓글 등록용 ajax
+   				
+   				$.ajax({
+   					url:"rinsert.bo",
+   					type: "post",
+   					data:{
+   						content : $("#replyContent").val(),
+   						bno : <%=b.getBoardNo()%>,
+   						userNo : $("#userNo").val()
+   					},
+   					success : function(result){
+   						
+   						if(result == "success") {
+   							selectReplyList();
+   							$("#replyContent").val("");
+   							$("#replyContent").focus();
+   						}
+   						
+   						
+   					},
+   					error : function(){
+   						
+   						console.log("댓글 작성용 ajax 통신 실패");
+   						
+   					}
+   				})
+   				
+   			}
    		
    			function selectReplyList(){//해당 게시글 딸려있는 댓글 리스트 
    				$.ajax({
@@ -144,7 +176,6 @@
    			}
    		</script>
    
-   
-   
+
 </body>
 </html>
